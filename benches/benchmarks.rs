@@ -3,6 +3,20 @@ use ecs_bench_suite::*;
 
 fn bench_simple_insert(c: &mut Criterion) {
     let mut group = c.benchmark_group("simple_insert");
+    group.throughput(Throughput::Elements(4 * 1_000_000));
+    group.bench_function("raw", |b| {
+        let mut bench = raw::simple_insert::Benchmark::new();
+        b.iter(move || bench.run());
+    });
+    group.bench_function("tribles", |b| {
+        let mut bench = tribles::simple_insert::Benchmark::new();
+        b.iter(move || bench.run());
+    });
+    group.bench_function("specs", |b| {
+        let mut bench = specs::simple_insert::Benchmark::new();
+        b.iter(move || bench.run());
+    });
+    /*
     group.bench_function("legion", |b| {
         let mut bench = legion::simple_insert::Benchmark::new();
         b.iter(move || bench.run());
@@ -23,14 +37,25 @@ fn bench_simple_insert(c: &mut Criterion) {
         let mut bench = shipyard::simple_insert::Benchmark::new();
         b.iter(move || bench.run());
     });
-    group.bench_function("specs", |b| {
-        let mut bench = specs::simple_insert::Benchmark::new();
-        b.iter(move || bench.run());
-    });
+    */
 }
 
 fn bench_simple_iter(c: &mut Criterion) {
     let mut group = c.benchmark_group("simple_iter");
+    group.throughput(Throughput::Elements(1_000_000));
+    group.bench_function("raw", |b| {
+        let mut bench = raw::simple_iter::Benchmark::new();
+        b.iter(move || bench.run());
+    });
+    group.bench_function("tribles", |b| {
+        let mut bench = tribles::simple_iter::Benchmark::new();
+        b.iter(move || bench.run());
+    });
+    group.bench_function("specs", |b| {
+        let mut bench = specs::simple_iter::Benchmark::new();
+        b.iter(move || bench.run());
+    });
+    /*
     group.bench_function("legion", |b| {
         let mut bench = legion::simple_iter::Benchmark::new();
         b.iter(move || bench.run());
@@ -55,14 +80,16 @@ fn bench_simple_iter(c: &mut Criterion) {
         let mut bench = shipyard::simple_iter::Benchmark::new();
         b.iter(move || bench.run());
     });
-    group.bench_function("specs", |b| {
-        let mut bench = specs::simple_iter::Benchmark::new();
-        b.iter(move || bench.run());
-    });
+    */
 }
 
 fn bench_frag_iter_bc(c: &mut Criterion) {
     let mut group = c.benchmark_group("fragmented_iter");
+    group.throughput(Throughput::Elements(26 * 20));
+    group.bench_function("specs", |b| {
+        let mut bench = specs::frag_iter::Benchmark::new();
+        b.iter(move || bench.run());
+    });
     group.bench_function("legion", |b| {
         let mut bench = legion::frag_iter::Benchmark::new();
         b.iter(move || bench.run());
@@ -81,10 +108,6 @@ fn bench_frag_iter_bc(c: &mut Criterion) {
     });
     group.bench_function("shipyard", |b| {
         let mut bench = shipyard::frag_iter::Benchmark::new();
-        b.iter(move || bench.run());
-    });
-    group.bench_function("specs", |b| {
-        let mut bench = specs::frag_iter::Benchmark::new();
         b.iter(move || bench.run());
     });
 }
@@ -119,6 +142,7 @@ fn bench_schedule(c: &mut Criterion) {
 
 fn bench_heavy_compute(c: &mut Criterion) {
     let mut group = c.benchmark_group("heavy_compute");
+    group.throughput(Throughput::Elements(100 * 1000));
     group.bench_function("legion", |b| {
         let mut bench = legion::heavy_compute::Benchmark::new();
         b.iter(move || bench.run());
@@ -147,6 +171,7 @@ fn bench_heavy_compute(c: &mut Criterion) {
 
 fn bench_add_remove(c: &mut Criterion) {
     let mut group = c.benchmark_group("add_remove_component");
+    group.throughput(Throughput::Elements(10_000));
     group.bench_function("legion", |b| {
         let mut bench = legion::add_remove::Benchmark::new();
         b.iter(move || bench.run());
@@ -175,6 +200,7 @@ fn bench_add_remove(c: &mut Criterion) {
 
 fn bench_serialize_text(c: &mut Criterion) {
     let mut group = c.benchmark_group("serialize_text");
+    group.throughput(Throughput::Elements(4000));
     group.bench_function("legion", |b| {
         let mut bench = legion::serialize_text::Benchmark::new();
         b.iter(move || bench.run());
@@ -191,6 +217,7 @@ fn bench_serialize_text(c: &mut Criterion) {
 
 fn bench_serialize_binary(c: &mut Criterion) {
     let mut group = c.benchmark_group("serialize_binary");
+    group.throughput(Throughput::Elements(4000));
     group.bench_function("legion", |b| {
         let mut bench = legion::serialize_binary::Benchmark::new();
         b.iter(move || bench.run());
@@ -209,11 +236,11 @@ criterion_group!(
     benchmarks,
     bench_simple_insert,
     bench_simple_iter,
-    bench_frag_iter_bc,
-    bench_schedule,
-    bench_heavy_compute,
-    bench_add_remove,
-    bench_serialize_text,
-    bench_serialize_binary,
+    //bench_frag_iter_bc,
+    //bench_add_remove,
+    //bench_schedule,
+    //bench_heavy_compute,
+    //bench_serialize_text,
+    //bench_serialize_binary,
 );
 criterion_main!(benchmarks);

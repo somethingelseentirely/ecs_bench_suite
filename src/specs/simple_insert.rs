@@ -3,18 +3,18 @@ use specs::prelude::*;
 use specs_derive::*;
 
 #[derive(Copy, Clone, Component)]
-#[storage(VecStorage)]
+#[storage(HashMapStorage)]
 struct Transform(Matrix4<f32>);
 #[derive(Copy, Clone, Component)]
-#[storage(VecStorage)]
+#[storage(HashMapStorage)]
 struct Position(Vector3<f32>);
 
 #[derive(Copy, Clone, Component)]
-#[storage(VecStorage)]
+#[storage(HashMapStorage)]
 struct Rotation(Vector3<f32>);
 
 #[derive(Copy, Clone, Component)]
-#[storage(VecStorage)]
+#[storage(HashMapStorage)]
 struct Velocity(Vector3<f32>);
 
 pub struct Benchmark;
@@ -30,7 +30,7 @@ impl Benchmark {
         world.register::<Position>();
         world.register::<Rotation>();
         world.register::<Velocity>();
-        (0..10000).for_each(|_| {
+        (0..1_000_000).for_each(|_| {
             world
                 .create_entity()
                 .with(Transform(Matrix4::<f32>::from_scale(1.0)))
