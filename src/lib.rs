@@ -8,4 +8,5 @@ pub mod planck_ecs;
 pub mod shipyard;
 pub mod specs;
 pub mod raw;
+pub mod local;
 pub mod tribles;

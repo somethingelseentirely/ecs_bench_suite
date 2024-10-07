@@ -3,18 +3,18 @@ use specs::prelude::*;
 use specs_derive::*;
 
 #[derive(Copy, Clone, Component)]
-#[storage(HashMapStorage)]
+#[storage(VecStorage)]
 struct Transform(Matrix4<f32>);
 #[derive(Copy, Clone, Component)]
-#[storage(HashMapStorage)]
+#[storage(VecStorage)]
 struct Position(Vector3<f32>);
 
 #[derive(Copy, Clone, Component)]
-#[storage(HashMapStorage)]
+#[storage(VecStorage)]
 struct Rotation(Vector3<f32>);
 
 #[derive(Copy, Clone, Component)]
-#[storage(HashMapStorage)]
+#[storage(VecStorage)]
 struct Velocity(Vector3<f32>);
 
 pub struct Benchmark;

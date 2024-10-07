@@ -8,6 +8,10 @@ fn bench_simple_insert(c: &mut Criterion) {
         let mut bench = raw::simple_insert::Benchmark::new();
         b.iter(move || bench.run());
     });
+    group.bench_function("local", |b| {
+        let mut bench = local::simple_insert::Benchmark::new();
+        b.iter(move || bench.run());
+    });
     group.bench_function("tribles", |b| {
         let mut bench = tribles::simple_insert::Benchmark::new();
         b.iter(move || bench.run());
@@ -45,6 +49,10 @@ fn bench_simple_iter(c: &mut Criterion) {
     group.throughput(Throughput::Elements(1_000_000));
     group.bench_function("raw", |b| {
         let mut bench = raw::simple_iter::Benchmark::new();
+        b.iter(move || bench.run());
+    });
+    group.bench_function("local", |b| {
+        let mut bench = local::simple_iter::World::new();
         b.iter(move || bench.run());
     });
     group.bench_function("tribles", |b| {

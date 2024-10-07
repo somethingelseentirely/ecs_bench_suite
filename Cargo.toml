@@ -21,6 +21,7 @@ shipyard = "0.5.0"
 specs = {version = "0.16.1", features = ["serde"] }
 specs-derive = "0.4.1"
 tribles = {git = "https://github.com/triblesspace/tribles-rust.git"}
+rand = "0.8.5"
 
 [dev-dependencies]
 criterion = "0.3"
