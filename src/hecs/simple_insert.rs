@@ -22,7 +22,7 @@ impl Benchmark {
 
     pub fn run(&mut self) {
         let mut world = World::new();
-        world.spawn_batch((0..10_000).map(|_| {
+        world.spawn_batch((0..1_000_000).map(|_| {
             (
                 Transform(Matrix4::from_scale(1.0)),
                 Position(Vector3::unit_x()),
