@@ -20,7 +20,6 @@ fn bench_simple_insert(c: &mut Criterion) {
         let mut bench = specs::simple_insert::Benchmark::new();
         b.iter(move || bench.run());
     });
-    /*
     group.bench_function("legion", |b| {
         let mut bench = legion::simple_insert::Benchmark::new();
         b.iter(move || bench.run());
@@ -41,7 +40,6 @@ fn bench_simple_insert(c: &mut Criterion) {
         let mut bench = shipyard::simple_insert::Benchmark::new();
         b.iter(move || bench.run());
     });
-    */
 }
 
 fn bench_simple_iter(c: &mut Criterion) {
@@ -63,7 +61,6 @@ fn bench_simple_iter(c: &mut Criterion) {
         let mut bench = specs::simple_iter::Benchmark::new();
         b.iter(move || bench.run());
     });
-    /*
     group.bench_function("legion", |b| {
         let mut bench = legion::simple_iter::Benchmark::new();
         b.iter(move || bench.run());
@@ -88,7 +85,6 @@ fn bench_simple_iter(c: &mut Criterion) {
         let mut bench = shipyard::simple_iter::Benchmark::new();
         b.iter(move || bench.run());
     });
-    */
 }
 
 fn bench_frag_iter_bc(c: &mut Criterion) {
