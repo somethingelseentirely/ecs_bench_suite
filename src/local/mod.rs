@@ -7,6 +7,7 @@ use std::{cmp::Ordering, collections::BTreeMap};
 use std::borrow::Borrow;
 
 use arrayvec::ArrayVec;
+use rand::seq::index;
 use tribles::fucid;
 
 pub mod simple_insert;
@@ -217,9 +218,11 @@ impl Borrow<Id> for Column {
     }
 }
 
+const QUERY_LIMIT: usize = 8;
+
 pub struct World {
     pub entities: Vec<Entity>,
-    pub queries: BTreeMap<BTreeSet<Column>, Vec<usize>>,
+    pub queries: BTreeMap<ArrayVec<Id, QUERY_LIMIT>, Vec<usize>>,
     pub components: BTreeSet<Column>
 }
 
@@ -234,24 +237,6 @@ impl World {
 }
 
 impl World {
-    /*
-    fn prepare(&mut self, components: BTreeSet<Id>) {
-        if let None = self.queries.get(&components) {
-            let vec = Vec::new();
-            self.queries.insert(components.clone(), vec);
-            let vec = self.queries.get_mut(&components).expect("just inserted");
-            for entity in self.entities.iter() {
-                let entity_components: BTreeSet<Id> = entity.components.keys().copied().collect();
-                if components.is_subset(&entity_components) {
-                    for id in &components {
-                        vec.push(*entity.components.get(id).expect("is a subset"));
-                    }
-                }
-            }
-        }
-    }
-    */
-
     fn new_entity(&mut self) -> &mut Entity {
         let id = fucid();
         let entity = Entity::new(id);
@@ -259,12 +244,35 @@ impl World {
         self.entities.last_mut().expect("just pushed")
     }
 
-    fn new_component<T: Send + Sync + 'static>(&mut self) -> Column {
-        let id = fucid();
+    fn new_component<T: Send + Sync + 'static>(&mut self, id: Id) -> Column {
         let col = Column::new::<T>(id);
         self.components.insert(col.clone());
         col
     }
+
+    fn new_query(&mut self, components: &ArrayVec<Id, QUERY_LIMIT>) {
+        if let None = self.queries.get(components) {
+            let vec = Vec::new();
+            self.queries.insert(components.clone(), vec);
+            let vec = self.queries.get_mut(components).expect("just inserted");
+            for entity in self.entities.iter() {
+                if components.iter().all(|component| entity.component_id.contains(component)) {
+                    for component_id in components {
+                        let indexindex = entity.component_id.iter().position(|id|id == component_id).expect("is a subset");
+                        let index = entity.component_index[indexindex];
+                        vec.push(index);
+                    }
+                }
+            }
+        }
+    }
+
+    fn query(&mut self, components: &ArrayVec<Id, QUERY_LIMIT>) -> Option<impl Iterator<Item = &[usize]>> {
+        let indices = self.queries.get(components)?;
+        Some(indices.chunks_exact(components.len()))
+    }
+
+    //fn prepare_queries(&self, world; &mut World) {}
 }
 
 
