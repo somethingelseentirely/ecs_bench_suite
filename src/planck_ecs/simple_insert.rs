@@ -24,7 +24,7 @@ impl Benchmark {
         let mut comp3 = Components::<Rotation>::default();
         let mut comp4 = Components::<Velocity>::default();
 
-        let en = (0..10000).map(|_| entities.create()).collect::<Vec<_>>();
+        let en = (0..1_000_000).map(|_| entities.create()).collect::<Vec<_>>();
         en.iter().for_each(|e| {comp1.insert(*e, Transform(Matrix4::<f32>::from_scale(1.0)));});
         en.iter().for_each(|e| {comp2.insert(*e, Position(Vector3::unit_x()));});
         en.iter().for_each(|e| {comp3.insert(*e, Rotation(Vector3::unit_x()));});
