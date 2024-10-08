@@ -52,7 +52,7 @@ fn bench_simple_iter(c: &mut Criterion) {
         b.iter(move || bench.run());
     });
     group.bench_function("local", |b| {
-        let mut bench = local::simple_iter::World::new();
+        let mut bench = local::simple_iter::Benchmark::new();
         b.iter(move || bench.run());
     });
     group.bench_function("tribles", |b| {
