@@ -47,10 +47,10 @@ impl Benchmark {
             entity.add_component(&mut vel, Velocity(Vector3::unit_x()));
         }
 
-        let mut query = ArrayVec::new();
-        query.push(pos.id);
-        query.push(vel.id);
+        //let mut query = ArrayVec::new();
+        //query.push(pos.id);
+        //query.push(vel.id);
         
-        world.new_query(&query);
+        //world.new_query(&query);
     }
 }

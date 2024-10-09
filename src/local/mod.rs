@@ -1,7 +1,7 @@
 use std::any::Any;
 use std::collections::BTreeSet;
 use std::ops::{Deref, DerefMut};
-use std::sync::{Arc, RwLock, RwLockReadGuard, RwLockWriteGuard};
+use std::sync::{atomic, Arc, RwLock, RwLockReadGuard, RwLockWriteGuard};
 use std::{cmp::Ordering, collections::BTreeMap};
 
 use std::borrow::Borrow;
@@ -16,12 +16,12 @@ pub mod simple_iter;
 pub type Id = [u8; 16];
 
 pub struct Row<T> {
-    pub entity: [u8; 16],
+    pub entity: Id,
     pub inner: T
 }
 
 impl<T> Row<T> {
-    fn new(entity: [u8; 16], inner: T) -> Self {
+    fn new(entity: Id, inner: T) -> Self {
         Self {
             entity,
             inner
